@@ -5,18 +5,127 @@
  */
 package telas;
 
+import conexao.ModuloConexao;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
+
 /**
  *
  * @author oem
  */
 public class Clientes extends javax.swing.JFrame {
+    
+    
+    Connection conexao = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
 
     /**
      * Creates new form Clientes
      */
     public Clientes() {
         initComponents();
+        conexao = ModuloConexao.conector();
     }
+    
+       private void adicionar(){
+        String sql = "insert into  tb_clientes (nome, rg, cpf, email, telefone, celular, cep, endereco, numero, complemento, bairro, cidade,estado) values( ?, ?, ? , ?, ?, ? ,? , ? , ?,?,?,?,?)";
+        try{
+            pst=conexao.prepareStatement(sql);
+//            pst.setString(1,  IdField.getText());            
+            pst.setString(1, Nome.getText()); 
+            pst.setString(2, RG.getText());   
+            pst.setString(3, CPF.getText());       
+            pst.setString(4, Email.getText()); 
+            pst.setString(5, "00");        
+            pst.setString(6, Celular.getText());   
+            pst.setString(7, CEP.getText());
+            pst.setString(8, Endereco.getText()); 
+            pst.setString(9, Numero.getText());    
+            pst.setString(10, Complemento.getText());            
+            pst.setString(11, Bairro.getText());   
+            pst.setString(12, Cidade.getText());  
+            pst.setString(13, Estado.getSelectedItem().toString());      
+
+
+
+
+
+             
+
+      
+         
+            
+            if(Nome.getText().isEmpty() || Email.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null,"Preencha todos os campos obrigatórios!");
+                
+                
+            }else{
+            
+             int adicionado =     pst.executeUpdate();
+            
+                          
+
+            if(adicionado > 0){
+                
+               JOptionPane.showMessageDialog(null,"Cliente Cadastrado com sucesso!");
+               
+                     limpar_campos();
+
+              
+            }
+            }
+             }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    
+    }
+     
+      public void pesquisar_cliente(){
+//          String sql = "select  id as Id, name as Nome, email as Email, fone as Telefone, endereco as Endereço  from clientes where  name like ?";
+                    String sql = "select id, nome, email, cpf, celular, estado, cidade, cep from tb_clientes";
+
+          try{
+               pst=conexao.prepareStatement(sql);
+               
+//               pst.setString(1, TxtPesquisar.getText() + "%");
+               
+                     rs= pst.executeQuery();
+                     
+                     Tabela.setModel(DbUtils.resultSetToTableModel(rs));
+          
+              }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+          
+           
+      }
+      
+         private void limpar_campos(){
+                     Nome.setText("");  
+                Email.setText("");           
+                RG.setText("");
+                 CPF.setText("");
+                 Celular.setText("");
+                 CEP.setText("");
+                Endereco.setText("");
+                Numero.setText("");
+                Complemento.setText("");
+                 Bairro.setText("");
+                Cidade.setText("");
+                Estado.setSelectedItem("");
+
+
+                 
+                 
+//                 ((DefaultTableModel) Tabela.getModel()).setRowCount(0);
+                 
+           
+       }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -40,7 +149,7 @@ public class Clientes extends javax.swing.JFrame {
         jToggleButton1 = new javax.swing.JToggleButton();
         RG = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
-        Celular1 = new javax.swing.JFormattedTextField();
+        Celular = new javax.swing.JFormattedTextField();
         jLabel6 = new javax.swing.JLabel();
         CPF = new javax.swing.JFormattedTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -56,12 +165,14 @@ public class Clientes extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         Estado = new javax.swing.JComboBox();
         jLabel13 = new javax.swing.JLabel();
-        ImprimirButton = new javax.swing.JToggleButton();
-        NovoButton1 = new javax.swing.JToggleButton();
-        SalvarButton1 = new javax.swing.JToggleButton();
-        EditarButton1 = new javax.swing.JToggleButton();
-        ExcluirButton1 = new javax.swing.JToggleButton();
+        CEP = new javax.swing.JFormattedTextField();
+        jLabel14 = new javax.swing.JLabel();
+        SalvarButton = new javax.swing.JButton();
+        NovoButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Tabela = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -108,7 +219,7 @@ public class Clientes extends javax.swing.JFrame {
         jLabel5.setText("Celular");
 
         try {
-            Celular1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) - #####-####")));
+            Celular.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) - #####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -138,15 +249,27 @@ public class Clientes extends javax.swing.JFrame {
 
         jLabel13.setText("Estado");
 
-        ImprimirButton.setText("Imprimir");
+        try {
+            CEP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
-        NovoButton1.setText("Novo");
+        jLabel14.setText("CEP");
 
-        SalvarButton1.setText("Salvar");
+        SalvarButton.setText("Salvar");
+        SalvarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalvarButtonActionPerformed(evt);
+            }
+        });
 
-        EditarButton1.setText("Editar");
-
-        ExcluirButton1.setText("Excluir");
+        NovoButton.setText("Novo");
+        NovoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NovoButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -154,12 +277,12 @@ public class Clientes extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(59, 59, 59)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Celular1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Celular, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel7)
                                     .addComponent(CPF, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -208,16 +331,19 @@ public class Clientes extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(426, 426, 426))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(NovoButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(SalvarButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(47, 47, 47)
-                        .addComponent(EditarButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
-                        .addComponent(ExcluirButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
-                        .addComponent(ImprimirButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(212, 212, 212))))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14)
+                            .addComponent(CEP, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(233, 233, 233)
+                .addComponent(SalvarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(69, 69, 69)
+                    .addComponent(NovoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(909, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,7 +383,7 @@ public class Clientes extends javax.swing.JFrame {
                                         .addComponent(jLabel13)
                                         .addGap(3, 3, 3)))
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(Celular1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Celular, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(RG, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(Estado, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
@@ -278,27 +404,63 @@ public class Clientes extends javax.swing.JFrame {
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Bairro, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(SalvarButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(EditarButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ExcluirButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ImprimirButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(NovoButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(73, 73, 73))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel14)
+                .addGap(8, 8, 8)
+                .addComponent(CEP, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addComponent(SalvarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addContainerGap(614, Short.MAX_VALUE)
+                    .addComponent(NovoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(35, 35, 35)))
         );
 
         jTabbedPane1.addTab("Dados de Clientes", jPanel2);
+
+        Tabela.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(Tabela);
+
+        jButton1.setText("Pesquisar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1104, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1072, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 694, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(118, 118, 118)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(229, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Consulta de Clientes", jPanel3);
@@ -318,9 +480,23 @@ public class Clientes extends javax.swing.JFrame {
                 .addComponent(jTabbedPane1))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(1118, 869));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void SalvarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalvarButtonActionPerformed
+        adicionar();
+       
+// TODO add your handling code here:
+    }//GEN-LAST:event_SalvarButtonActionPerformed
+
+    private void NovoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NovoButtonActionPerformed
+        limpar_campos();     // TODO add your handling code here:
+    }//GEN-LAST:event_NovoButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    pesquisar_cliente();            // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -359,26 +535,27 @@ public class Clientes extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Bairro;
+    private javax.swing.JFormattedTextField CEP;
     private javax.swing.JFormattedTextField CPF;
-    private javax.swing.JFormattedTextField Celular1;
+    private javax.swing.JFormattedTextField Celular;
     private javax.swing.JTextField Cidade;
     private javax.swing.JTextField Complemento;
-    private javax.swing.JToggleButton EditarButton1;
     private javax.swing.JTextField Email;
     private javax.swing.JTextField Endereco;
     private javax.swing.JComboBox Estado;
-    private javax.swing.JToggleButton ExcluirButton1;
-    private javax.swing.JToggleButton ImprimirButton;
     private javax.swing.JTextField Nome;
-    private javax.swing.JToggleButton NovoButton1;
+    private javax.swing.JButton NovoButton;
     private javax.swing.JTextField Numero;
     private javax.swing.JFormattedTextField RG;
-    private javax.swing.JToggleButton SalvarButton1;
+    private javax.swing.JButton SalvarButton;
+    private javax.swing.JTable Tabela;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -390,6 +567,7 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JToggleButton jToggleButton1;
