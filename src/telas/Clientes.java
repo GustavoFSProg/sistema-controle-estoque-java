@@ -87,7 +87,7 @@ public class Clientes extends javax.swing.JFrame {
      
       public void pesquisar_cliente(){
 //          String sql = "select  id as Id, name as Nome, email as Email, fone as Telefone, endereco as Endereço  from clientes where  name like ?";
-                    String sql = "select id, nome, email, cpf, celular, estado, cidade, cep from tb_clientes where  nome like ?";
+                    String sql = "select * from tb_clientes where  nome like ?";
 
           try{
                pst=conexao.prepareStatement(sql);
@@ -104,6 +104,8 @@ public class Clientes extends javax.swing.JFrame {
           
            
       }
+      
+     
       
       
       
@@ -128,6 +130,36 @@ public class Clientes extends javax.swing.JFrame {
                  
            
        }
+         
+             public void setar_campos(){
+            int setar = Tabela.getSelectedRow();
+            
+               IdField.setText(Tabela.getModel().getValueAt(setar, 0).toString());  
+               Nome.setText(Tabela.getModel().getValueAt(setar, 1).toString()); 
+                RG.setText(Tabela.getModel().getValueAt(setar, 2).toString());   
+               CPF.setText(Tabela.getModel().getValueAt(setar, 3).toString());
+               Email.setText(Tabela.getModel().getValueAt(setar, 4).toString());     
+               Celular.setText(Tabela.getModel().getValueAt(setar, 6).toString());
+               CEP.setText(Tabela.getModel().getValueAt(setar, 7).toString()); 
+               Endereco.setText(Tabela.getModel().getValueAt(setar, 8).toString());   
+               Numero.setText(Tabela.getModel().getValueAt(setar, 9).toString()); 
+               Complemento.setText(Tabela.getModel().getValueAt(setar, 10).toString());           
+               Bairro.setText(Tabela.getModel().getValueAt(setar, 11).toString());             
+               Cidade.setText(Tabela.getModel().getValueAt(setar, 12).toString());           
+               Estado.setSelectedItem(Tabela.getModel().getValueAt(setar, 13).toString());      
+
+
+
+
+
+//(nome, rg, cpf, email, telefone, celular, cep, endereco, numero, complemento, bairro, cidade,estado)
+
+
+
+               
+//               AddButton.setEnabled(false);
+
+        }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -143,7 +175,7 @@ public class Clientes extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        IdField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         Nome = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -171,6 +203,7 @@ public class Clientes extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         SalvarButton = new javax.swing.JButton();
         NovoButton = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabela = new javax.swing.JTable();
@@ -277,6 +310,14 @@ public class Clientes extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/lupa.png"))); // NOI18N
+        jButton2.setToolTipText("Pesquisar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -323,7 +364,7 @@ public class Clientes extends javax.swing.JFrame {
                                             .addComponent(Bairro, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(IdField, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -340,7 +381,9 @@ public class Clientes extends javax.swing.JFrame {
                                 .addComponent(NovoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(SalvarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(381, 381, 381)))
+                                .addGap(32, 32, 32)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(254, 254, 254)))
                         .addGap(426, 426, 426))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -360,7 +403,7 @@ public class Clientes extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(IdField, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -412,14 +455,17 @@ public class Clientes extends javax.swing.JFrame {
                 .addGap(8, 8, 8)
                 .addComponent(CEP, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(SalvarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
-                    .addComponent(NovoButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(SalvarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+                        .addComponent(NovoButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton2))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Dados de Clientes", jPanel2);
 
+        Tabela.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         Tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -431,6 +477,12 @@ public class Clientes extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        Tabela.setRowHeight(26);
+        Tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TabelaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Tabela);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/lupa.png"))); // NOI18N
@@ -521,6 +573,18 @@ public class Clientes extends javax.swing.JFrame {
 pesquisar_cliente();            // TODO add your handling code here:
     }//GEN-LAST:event_ConsultaNomeKeyReleased
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void TabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelaMouseClicked
+     
+   setar_campos();        
+// TODO add your handling code here:
+    }//GEN-LAST:event_TabelaMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -567,6 +631,7 @@ pesquisar_cliente();            // TODO add your handling code here:
     private javax.swing.JTextField Email;
     private javax.swing.JTextField Endereco;
     private javax.swing.JComboBox Estado;
+    private javax.swing.JTextField IdField;
     private javax.swing.JTextField Nome;
     private javax.swing.JButton NovoButton;
     private javax.swing.JTextField Numero;
@@ -574,6 +639,7 @@ pesquisar_cliente();            // TODO add your handling code here:
     private javax.swing.JButton SalvarButton;
     private javax.swing.JTable Tabela;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -594,7 +660,6 @@ pesquisar_cliente();            // TODO add your handling code here:
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }
