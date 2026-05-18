@@ -84,6 +84,59 @@ public class Clientes extends javax.swing.JFrame {
         }
     
     }
+       
+          private void update(){
+           
+             String sql = "update  tb_clientes  set   nome=?, rg=?, cpf=? , email=?, celular=?, cep=?, endereco=?, numero=?, complemento=?, bairro=?, cidade=?, estado=? where  id=?";
+             try{
+                  int numberID = Integer.parseInt(IdField.getText());
+                 
+                 
+                  pst= conexao.prepareStatement(sql);
+                 pst.setString(1, Nome.getText()); 
+            pst.setString(2, RG.getText());   
+            pst.setString(3, CPF.getText());       
+            pst.setString(4, Email.getText()); 
+//            pst.setString(5, "0");        
+            pst.setString(5, Celular.getText());   
+            pst.setString(6, CEP.getText());
+            pst.setString(7, Endereco.getText()); 
+            pst.setString(8, Numero.getText());    
+            pst.setString(9, Complemento.getText());            
+            pst.setString(10, Bairro.getText());   
+            pst.setString(11, Cidade.getText());  
+            pst.setString(12, Estado.getSelectedItem().toString()); 
+            pst.setInt(13, numberID);   
+
+ 
+             
+
+      if(Nome.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null,"Preencha todos os campos obrigatórios!");
+                
+                
+            }else{
+            
+             int adicionado =     pst.executeUpdate();
+            
+                          
+
+            if(adicionado > 0){
+                
+               JOptionPane.showMessageDialog(null,"Cliente Atualizado com sucesso!");
+//              
+               
+               limpar_campos();
+                 
+//                  AddButton.setEnabled(true);
+              
+            }
+            }
+             }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+          }
+           
      
       public void pesquisar_cliente(){
 //          String sql = "select  id as Id, name as Nome, email as Email, fone as Telefone, endereco as Endereço  from clientes where  name like ?";
@@ -110,6 +163,9 @@ public class Clientes extends javax.swing.JFrame {
       
       
          private void limpar_campos(){
+             
+             
+               IdField.setText("");
                      Nome.setText("");  
                 Email.setText("");           
                 RG.setText("");
@@ -203,7 +259,7 @@ public class Clientes extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         SalvarButton = new javax.swing.JButton();
         NovoButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabela = new javax.swing.JTable();
@@ -310,11 +366,11 @@ public class Clientes extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/lupa.png"))); // NOI18N
-        jButton2.setToolTipText("Pesquisar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/update.png"))); // NOI18N
+        jButton3.setToolTipText("Editar Cliente");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButton3ActionPerformed(evt);
             }
         });
 
@@ -381,9 +437,9 @@ public class Clientes extends javax.swing.JFrame {
                                 .addComponent(NovoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(SalvarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(254, 254, 254)))
+                                .addGap(28, 28, 28)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(248, 248, 248)))
                         .addGap(426, 426, 426))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -455,11 +511,11 @@ public class Clientes extends javax.swing.JFrame {
                 .addGap(8, 8, 8)
                 .addComponent(CEP, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(SalvarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
-                        .addComponent(NovoButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jButton2))
+                        .addComponent(NovoButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
 
@@ -573,17 +629,15 @@ public class Clientes extends javax.swing.JFrame {
 pesquisar_cliente();            // TODO add your handling code here:
     }//GEN-LAST:event_ConsultaNomeKeyReleased
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void TabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelaMouseClicked
      
    setar_campos();        
 // TODO add your handling code here:
     }//GEN-LAST:event_TabelaMouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    update();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -639,7 +693,7 @@ pesquisar_cliente();            // TODO add your handling code here:
     private javax.swing.JButton SalvarButton;
     private javax.swing.JTable Tabela;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
