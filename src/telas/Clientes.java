@@ -87,12 +87,12 @@ public class Clientes extends javax.swing.JFrame {
      
       public void pesquisar_cliente(){
 //          String sql = "select  id as Id, name as Nome, email as Email, fone as Telefone, endereco as Endereço  from clientes where  name like ?";
-                    String sql = "select id, nome, email, cpf, celular, estado, cidade, cep from tb_clientes";
+                    String sql = "select id, nome, email, cpf, celular, estado, cidade, cep from tb_clientes where  nome like ?";
 
           try{
                pst=conexao.prepareStatement(sql);
                
-//               pst.setString(1, TxtPesquisar.getText() + "%");
+               pst.setString(1, ConsultaNome.getText() + "%");
                
                      rs= pst.executeQuery();
                      
@@ -104,6 +104,8 @@ public class Clientes extends javax.swing.JFrame {
           
            
       }
+      
+      
       
          private void limpar_campos(){
                      Nome.setText("");  
@@ -173,6 +175,8 @@ public class Clientes extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabela = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        ConsultaNome = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -437,25 +441,43 @@ public class Clientes extends javax.swing.JFrame {
             }
         });
 
+        ConsultaNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ConsultaNomeKeyReleased(evt);
+            }
+        });
+
+        jLabel15.setText("Consulta por Nome:");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1072, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1072, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15)
+                            .addComponent(ConsultaNome, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addGap(29, 29, 29)
+                .addComponent(jLabel15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ConsultaNome, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(98, 98, 98)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addContainerGap(229, Short.MAX_VALUE))
         );
@@ -494,6 +516,10 @@ public class Clientes extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     pesquisar_cliente();            // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void ConsultaNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ConsultaNomeKeyReleased
+pesquisar_cliente();            // TODO add your handling code here:
+    }//GEN-LAST:event_ConsultaNomeKeyReleased
 
     /**
      * @param args the command line arguments
@@ -537,6 +563,7 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField Celular;
     private javax.swing.JTextField Cidade;
     private javax.swing.JTextField Complemento;
+    private javax.swing.JTextField ConsultaNome;
     private javax.swing.JTextField Email;
     private javax.swing.JTextField Endereco;
     private javax.swing.JComboBox Estado;
@@ -553,6 +580,7 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
