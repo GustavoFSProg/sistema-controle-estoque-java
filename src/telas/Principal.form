@@ -67,12 +67,12 @@
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="239" max="-2" attributes="0"/>
-                      <Component id="jLabel2" min="-2" pref="380" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" pref="932" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="249" max="-2" attributes="0"/>
+                      <Component id="jLabel2" min="-2" pref="380" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="284" max="32767" attributes="0"/>
@@ -149,12 +149,12 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="Data" min="-2" pref="101" max="-2" attributes="0"/>
+                  <Component id="Data" min="-2" pref="89" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="Timmer" min="-2" pref="193" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -194,7 +194,10 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Ubuntu" size="20" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="||"/>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="a9" green="9b" red="9a" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="|"/>
           </Properties>
         </Component>
       </SubComponents>
