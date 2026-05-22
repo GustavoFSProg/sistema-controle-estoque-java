@@ -79,12 +79,12 @@ public class Produtos extends javax.swing.JFrame {
         
             public void pesquisar_cliente(){
 //          String sql = "select  id as Id, name as Nome, email as Email, fone as Telefone, endereco as Endereço  from clientes where  name like ?";
-                    String sql = "select * from tb_clientes where  nome like ?";
+                    String sql = "select * from tb_produtos where  nome like ?";
 
           try{
                pst=conexao.prepareStatement(sql);
                
-//               pst.setString(1, ConsultaNome.getText() + "%");
+               pst.setString(1, ConsultaNome.getText() + "%");
                
                      rs= pst.executeQuery();
                      
@@ -136,6 +136,108 @@ public class Produtos extends javax.swing.JFrame {
                  
            
        }
+         
+                 
+                 
+       private void deletar(){
+        int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover esse produto?", "Atenção", JOptionPane.YES_NO_OPTION);
+        
+      if(confirma ==JOptionPane.YES_OPTION)  {
+          String sql = "delete from tb_produtos  where id=?";
+          
+          try{
+              pst=conexao.prepareStatement(sql);
+               int numberID = Integer.parseInt(Id.getText());
+              
+              pst.setInt(1, numberID);
+              
+               int apagado =   pst.executeUpdate();
+               
+               if(apagado > 0){
+                   
+              
+                JOptionPane.showMessageDialog(null,"Produto deletado com sucesso!");
+              
+               limpar_campos();
+               
+//               AddButton.setEnabled(true);
+                
+                               }
+
+              
+                }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+      }
+       }
+         
+            public void setar_campos(){
+            int setar = Tabela.getSelectedRow();
+            
+               Id.setText(Tabela.getModel().getValueAt(setar, 0).toString());  
+               Nome.setText(Tabela.getModel().getValueAt(setar, 1).toString()); 
+                Descricao.setText(Tabela.getModel().getValueAt(setar, 2).toString());   
+               Preco.setText(Tabela.getModel().getValueAt(setar, 3).toString());
+               Qtd.setText(Tabela.getModel().getValueAt(setar, 4).toString());     
+               ForId.setText(Tabela.getModel().getValueAt(setar, 5).toString());
+             
+
+
+//               AddButton.setEnabled(false);
+
+        }
+            
+            
+          private void update(){
+           
+             String sql = "update  tb_produtos  set   nome=?, descricao=?, preco=? , qtd_estoque=?, for_id=?  where  id=?";
+             try{
+                  int numberID = Integer.parseInt(Id.getText());
+                 
+                 
+            int preco = Integer.parseInt(Preco.getText());
+            int qtd = Integer.parseInt(Qtd.getText());      
+            int forId = Integer.parseInt(ForId.getText());
+
+
+            
+            pst=conexao.prepareStatement(sql);
+//            pst.setString(1,  IdField.getText());            
+            pst.setString(1, Nome.getText()); 
+            pst.setString(2, Descricao.getText());   
+            pst.setInt(3, preco);       
+            pst.setInt(4, qtd); 
+            pst.setInt(5, forId);  
+            pst.setInt(6, numberID);   
+
+ 
+             
+
+      if(Nome.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null,"Preencha todos os campos obrigatórios!");
+                
+                
+            }else{
+            
+             int adicionado =     pst.executeUpdate();
+            
+                          
+
+            if(adicionado > 0){
+                
+               JOptionPane.showMessageDialog(null,"Produto Atualizado com sucesso!");
+//              
+               
+               limpar_campos();
+                 
+//                  AddButton.setEnabled(true);
+              
+            }
+            }
+             }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+          }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -170,6 +272,8 @@ public class Produtos extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabela = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        ConsultaNome = new javax.swing.JTextField();
 
         jPanel1.setBackground(new java.awt.Color(21, 14, 14));
 
@@ -315,6 +419,7 @@ public class Produtos extends javax.swing.JFrame {
 
         jTabbedPane4.addTab("Dados do Produto", jPanel2);
 
+        Tabela.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         Tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -326,12 +431,29 @@ public class Produtos extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        Tabela.setRowHeight(26);
+        Tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TabelaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Tabela);
 
         jButton1.setText("Pesquisar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel15.setText("Consulta por Nome:");
+
+        ConsultaNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                ConsultaNomeKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ConsultaNomeKeyReleased(evt);
             }
         });
 
@@ -346,14 +468,22 @@ public class Produtos extends javax.swing.JFrame {
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1023, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15)
+                            .addComponent(ConsultaNome, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1023, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
+                .addGap(21, 21, 21)
+                .addComponent(jLabel15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ConsultaNome, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 67, Short.MAX_VALUE))
         );
@@ -392,12 +522,12 @@ public class Produtos extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
-//        update();
+        update();
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-//        deletar();
+        deletar();
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -407,6 +537,22 @@ public class Produtos extends javax.swing.JFrame {
         
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void TabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelaMouseClicked
+
+        setar_campos();
+// TODO add your handling code here:
+    }//GEN-LAST:event_TabelaMouseClicked
+
+    private void ConsultaNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ConsultaNomeKeyReleased
+        pesquisar_cliente();            // TODO add your handling code here:
+    }//GEN-LAST:event_ConsultaNomeKeyReleased
+
+    private void ConsultaNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ConsultaNomeKeyPressed
+
+            pesquisar_cliente();
+// TODO add your handling code here:
+    }//GEN-LAST:event_ConsultaNomeKeyPressed
 
     /**
      * @param args the command line arguments
@@ -444,6 +590,7 @@ public class Produtos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField ConsultaNome;
     private javax.swing.JTextField Descricao;
     private javax.swing.JTextField ForId;
     private javax.swing.JTextField Id;
@@ -457,6 +604,7 @@ public class Produtos extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
