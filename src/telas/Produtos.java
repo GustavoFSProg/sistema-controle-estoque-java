@@ -195,9 +195,29 @@ public class Produtos extends javax.swing.JFrame {
             
             
             
-             public void pesquisar_clientes_all(){
+             public void pesquisar_produtos_all(){
 //          String sql = "select  id as Id, name as Nome, email as Email, fone as Telefone, endereco as Endereço  from clientes where  name like ?";
                     String sql = "select * from tb_produtos";
+
+          try{
+               pst=conexao.prepareStatement(sql);
+               
+//               pst.setString(1, ConsultaNome.getText() + "%");
+               
+                     rs= pst.executeQuery();
+                     
+                     Tabela.setModel(DbUtils.resultSetToTableModel(rs));
+          
+              }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+          
+           
+      }
+             
+                   public void pesquisar_produtos_for_id(){
+//          String sql = "select  id as Id, name as Nome, email as Email, fone as Telefone, endereco as Endereço  from clientes where  name like ?";
+                    String sql = "select p.id, p.nome, p.descricao, p.preco, p.qtd_estoque, f.nome as fornecedores from tb_produtos as p inner join tb_fornecedores as f on(p.for_id=f.id)";
 
           try{
                pst=conexao.prepareStatement(sql);
@@ -565,13 +585,13 @@ public class Produtos extends javax.swing.JFrame {
         Tabela.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         Tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2", "Title 3", "Título 4", "Título 5", "Fornecedores"
             }
         ));
         Tabela.setRowHeight(26);
@@ -676,7 +696,7 @@ public class Produtos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-   pesquisar_clientes_all();      
+   pesquisar_produtos_for_id();   
         
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
