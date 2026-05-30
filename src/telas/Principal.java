@@ -72,6 +72,7 @@ Data.setText(dataFormatada);
         jMenu1 = new javax.swing.JMenu();
         MenuItemClientes = new javax.swing.JMenuItem();
         MenuItemProdutos = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -149,6 +150,14 @@ Data.setText(dataFormatada);
         });
         jMenu1.add(MenuItemProdutos);
 
+        jMenuItem1.setText("Fornecedores");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -209,6 +218,13 @@ Data.setText(dataFormatada);
 // TODO add your handling code here:
     }//GEN-LAST:event_MenuItemProdutosActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        
+         Fornecedores fornecedores = new  Fornecedores();
+                fornecedores.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -255,6 +271,7 @@ Data.setText(dataFormatada);
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
