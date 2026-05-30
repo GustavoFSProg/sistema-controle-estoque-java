@@ -9,7 +9,6 @@ import conexao.ModuloConexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 
@@ -17,7 +16,10 @@ import net.proteanit.sql.DbUtils;
  *
  * @author oem
  */
+
+
 public class Produtos extends javax.swing.JFrame {
+    
     
     
     
@@ -35,7 +37,10 @@ public class Produtos extends javax.swing.JFrame {
          
          pesquisar_fornecedores();
          
-         pesquisar_fornecedores_por_id();
+//         pesquisar_fornecedores_por_id();
+         
+         
+
          
     }
          
@@ -52,13 +57,20 @@ public class Produtos extends javax.swing.JFrame {
   
     
         private void adicionar(){
+            int Global = 0;
+
         String sql = "insert into  tb_produtos (nome, descricao, preco, qtd_estoque, for_id) values( ?, ?, ? , ?, ?)";
         try{
             int preco = Integer.parseInt(Preco.getText());
             int qtd = Integer.parseInt(Qtd.getText());      
-            int forId = Integer.parseInt(Fornecedor.getText());
+            int forId = Integer.parseInt(Index.getText());
+            
+//            int FOR;
+//            FOR = Integer.parseInt(ForId.(rs.getString("id")));
+            
+//            Global = 
 
-
+               
             
             pst=conexao.prepareStatement(sql);
 //            pst.setString(1,  IdField.getText());            
@@ -66,6 +78,8 @@ public class Produtos extends javax.swing.JFrame {
             pst.setString(2, Descricao.getText());   
             pst.setInt(3, preco);       
             pst.setInt(4, qtd); 
+            
+          
             pst.setInt(5, forId);
                
    
@@ -113,14 +127,13 @@ public class Produtos extends javax.swing.JFrame {
 //               pst.setString(1, ConsultaNome.getText() + "%");
                
                      rs= pst.executeQuery();
-                         
-                
-                    
                      
+                     
+      
 
                      while(rs.next()){
 
-       ForId.addItem(rs.getString("id")+ "--" + rs.getString("nome"));
+       ForId.addItem(rs.getString("nome"));
 
    }
                      
@@ -134,42 +147,42 @@ public class Produtos extends javax.swing.JFrame {
             
             
             
-              public void pesquisar_fornecedores_por_id(){
-//          String sql = "select  id as Id, name as Nome, email as Email, fone as Telefone, endereco as Endereço  from clientes where  name like ?";
-                
-
-
-//String query = "SELECT * FROM TABELA WHERE CONDICAO = TAL";
-
-
-          try{
-              
-//                  List<String> ForId = new ArrayList<String>();
-                    
-                                        String sql = "select id from tb_fornecedores";
-               pst=conexao.prepareStatement(sql);
-               
-//               pst.setString(1, ConsultaNome.getText() + "%");
-               
-                     rs= pst.executeQuery();
-                         
-                
-                    
-                     
-
-                     while(rs.next()){
-
-      CodigoForId.addItem(rs.getString("id"));
-
-   }
-                     
-          
-              }catch (Exception e){
-            JOptionPane.showMessageDialog(null, e);
-        }
-          
-           
-      }
+//              public void pesquisar_fornecedores_por_id(){
+////          String sql = "select  id as Id, name as Nome, email as Email, fone as Telefone, endereco as Endereço  from clientes where  name like ?";
+//                
+//
+//
+////String query = "SELECT * FROM TABELA WHERE CONDICAO = TAL";
+//
+//
+//          try{
+//              
+////                  List<String> ForId = new ArrayList<String>();
+//                    
+//                                        String sql = "select id from tb_fornecedores";
+//               pst=conexao.prepareStatement(sql);
+//               
+////               pst.setString(1, ConsultaNome.getText() + "%");
+//               
+//                     rs= pst.executeQuery();
+//                         
+//                
+//                    
+//                     
+//
+//                     while(rs.next()){
+//
+//      Auda.addItem(rs.getString("id"));
+//
+//   }
+//                     
+//          
+//              }catch (Exception e){
+//            JOptionPane.showMessageDialog(null, e);
+//        }
+//          
+//           
+//      }
             
             
         
@@ -192,21 +205,56 @@ public class Produtos extends javax.swing.JFrame {
           
            
       }
+
             
             
-            
-             public void pesquisar_produtos_all(){
+                public void pesquisar_produtos(){
 //          String sql = "select  id as Id, name as Nome, email as Email, fone as Telefone, endereco as Endereço  from clientes where  name like ?";
-                    String sql = "select * from tb_produtos";
+                    String sql = "select * from tb_produtos where  nome like ?";
 
           try{
                pst=conexao.prepareStatement(sql);
                
-//               pst.setString(1, ConsultaNome.getText() + "%");
+               pst.setString(1, ConsultaNome.getText() + "%");
                
                      rs= pst.executeQuery();
                      
                      Tabela.setModel(DbUtils.resultSetToTableModel(rs));
+          
+              }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+          
+           
+      }
+            
+            
+            
+             public void pesquisar_combobox(){
+//          String sql = "select  id as Id, name as Nome, email as Email, fone as Telefone, endereco as Endereço  from clientes where  name like ?";
+                    String sql = "select id from tb_fornecedores where nome=?";
+
+          try{
+               pst=conexao.prepareStatement(sql);
+               
+//               String Name = Integer.parseInt(ForId.getSelectedItem().toString()); 
+               String Name =ForId.getSelectedItem().toString();
+
+               
+               pst.setString(1,Name);
+               
+               
+                     rs= pst.executeQuery();
+                     
+                     
+//                     Tabela.setModel(DbUtils.resultSetToTableModel(rs));
+                     
+                     
+                     while(rs.next()){
+
+     Index.setText(rs.getString("id").toString());
+
+   }
           
               }catch (Exception e){
             JOptionPane.showMessageDialog(null, e);
@@ -387,10 +435,9 @@ public class Produtos extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         ForId = new javax.swing.JComboBox();
         jButton2 = new javax.swing.JButton();
-        Fornecedor = new javax.swing.JTextField();
+        Index = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        CodigoForId = new javax.swing.JComboBox();
-        jLabel9 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabela = new javax.swing.JTable();
@@ -465,9 +512,24 @@ public class Produtos extends javax.swing.JFrame {
             }
         });
 
+        ForId.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ForIdItemStateChanged(evt);
+            }
+        });
+        ForId.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                ForIdMousePressed(evt);
+            }
+        });
         ForId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ForIdActionPerformed(evt);
+            }
+        });
+        ForId.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                ForIdKeyPressed(evt);
             }
         });
 
@@ -478,15 +540,16 @@ public class Produtos extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setText("Digite o Codigo do Fornecedor");
+        Index.setEditable(false);
 
-        CodigoForId.addActionListener(new java.awt.event.ActionListener() {
+        jLabel8.setText("Ciodigo do Fornecedor");
+
+        jButton5.setText("Selecionar Fornecedor");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CodigoForIdActionPerformed(evt);
+                jButton5ActionPerformed(evt);
             }
         });
-
-        jLabel9.setText("Selecione o Código do Fornecedor");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -518,17 +581,16 @@ public class Produtos extends javax.swing.JFrame {
                             .addComponent(Qtd, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(103, 103, 103)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel8)
-                    .addComponent(Fornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(ForId, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel7))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ForId, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
+                            .addComponent(jLabel8)
+                            .addComponent(Index, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(CodigoForId, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(345, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -559,25 +621,23 @@ public class Produtos extends javax.swing.JFrame {
                             .addComponent(Qtd, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel9))
+                .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ForId, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CodigoForId, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addComponent(ForId, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Fornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Index, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(83, 83, 83)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(SalvarButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(NovoButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35))
+                .addGap(113, 113, 113))
         );
 
         jTabbedPane4.addTab("Dados do Produto", jPanel2);
@@ -648,7 +708,7 @@ public class Produtos extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(85, 85, 85)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 67, Short.MAX_VALUE))
+                .addGap(0, 186, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("Consultar Produtos", jPanel3);
@@ -708,12 +768,12 @@ public class Produtos extends javax.swing.JFrame {
     }//GEN-LAST:event_TabelaMouseClicked
 
     private void ConsultaNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ConsultaNomeKeyReleased
-        pesquisar_cliente();            // TODO add your handling code here:
+        pesquisar_produtos();            // TODO add your handling code here:
     }//GEN-LAST:event_ConsultaNomeKeyReleased
 
     private void ConsultaNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ConsultaNomeKeyPressed
 
-            pesquisar_cliente();
+            pesquisar_produtos();
 // TODO add your handling code here:
     }//GEN-LAST:event_ConsultaNomeKeyPressed
 
@@ -729,11 +789,29 @@ public class Produtos extends javax.swing.JFrame {
 //        Fornecedor.setText(ForId.getSelectedItem().toString());
     }//GEN-LAST:event_ForIdActionPerformed
 
-    private void CodigoForIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CodigoForIdActionPerformed
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         
-          Fornecedor.setText(CodigoForId.getSelectedItem().toString());
-    }//GEN-LAST:event_CodigoForIdActionPerformed
+        pesquisar_combobox();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void ForIdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ForIdMousePressed
+        // TODO add your handling code here:
+        
+//                pesquisar_combobox();
+
+    }//GEN-LAST:event_ForIdMousePressed
+
+    private void ForIdItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ForIdItemStateChanged
+        // TODO add your handling code here:
+//         pesquisar_combobox();
+    }//GEN-LAST:event_ForIdItemStateChanged
+
+    private void ForIdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ForIdKeyPressed
+        // TODO add your handling code here:
+        
+//         pesquisar_combobox();
+    }//GEN-LAST:event_ForIdKeyPressed
 
     /**
      * @param args the command line arguments
@@ -771,12 +849,11 @@ public class Produtos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox CodigoForId;
     private javax.swing.JTextField ConsultaNome;
     private javax.swing.JTextField Descricao;
     private javax.swing.JComboBox ForId;
-    private javax.swing.JTextField Fornecedor;
     private javax.swing.JTextField Id;
+    private javax.swing.JTextField Index;
     private javax.swing.JTextField Nome;
     private javax.swing.JButton NovoButton;
     private javax.swing.JTextField Preco;
@@ -787,6 +864,7 @@ public class Produtos extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
@@ -796,7 +874,6 @@ public class Produtos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
