@@ -78,8 +78,8 @@ Data.setText(dataFormatada);
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1181, 819));
@@ -138,7 +138,7 @@ Data.setText(dataFormatada);
                 .addContainerGap())
         );
 
-        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/clientes-60.png"))); // NOI18N
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/clientes-40.png"))); // NOI18N
         jMenu1.setText("Clientes");
 
         MenuItemClientes.setText("Clientes");
@@ -151,7 +151,7 @@ Data.setText(dataFormatada);
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/fornecedores-60.png"))); // NOI18N
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/fornecedores-40.png"))); // NOI18N
         jMenu2.setText("Fornecedores");
 
         jMenuItem2.setText("Fornecedores");
@@ -164,7 +164,7 @@ Data.setText(dataFormatada);
 
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/produtos-60.png"))); // NOI18N
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/produtos-40.png"))); // NOI18N
         jMenu3.setText("Produtos");
 
         jMenuItem3.setText("Produtos");
@@ -177,25 +177,25 @@ Data.setText(dataFormatada);
 
         jMenuBar1.add(jMenu3);
 
-        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendas-60.png"))); // NOI18N
+        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendas-40.png"))); // NOI18N
         jMenu4.setText("Vendas");
         jMenuBar1.add(jMenu4);
 
-        jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/avatar-60.png"))); // NOI18N
+        jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/avatar-33.png"))); // NOI18N
         jMenu5.setText("Funcionarios");
 
         jMenuItem4.setText("Funcionários");
         jMenu5.add(jMenuItem4);
 
+        jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/saida-40.png"))); // NOI18N
+        jMenu7.setText("Sair");
+        jMenu5.add(jMenu7);
+
         jMenuBar1.add(jMenu5);
 
-        jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/settings-60.png"))); // NOI18N
+        jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/settings-40.png"))); // NOI18N
         jMenu6.setText("Configurações");
         jMenuBar1.add(jMenu6);
-
-        jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/saida-60.png"))); // NOI18N
-        jMenu7.setText("Sair");
-        jMenuBar1.add(jMenu7);
 
         setJMenuBar(jMenuBar1);
 
