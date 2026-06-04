@@ -5,17 +5,83 @@
  */
 package telas;
 
+import conexao.ModuloConexao;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import static javax.swing.text.html.HTML.Tag.SELECT;
+
 /**
  *
  * @author oem
  */
 public class Login extends javax.swing.JFrame {
+    
+    
+    Connection conexao = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
 
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
+        
+                conexao = ModuloConexao.conector();
+
+    }
+    
+    private void Login(){
+      
+        
+         String sql = "select * from usuarios where email = ? and password = ?";
+         
+           try {
+         
+          pst=conexao.prepareStatement(sql);
+          
+      String  senha =  new String(Senha.getPassword());
+          
+            pst.setString(1, Email.getText()); 
+            pst.setString(2, senha); 
+            
+             
+            rs= pst.executeQuery();
+           
+               if (rs.next()) {
+            JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
+            
+              Principal principal = new  Principal();
+                principal.setVisible(true);
+            
+            // Aqui você abre a próxima tela do seu sistema
+            // TelaPrincipal principal = new TelaPrincipal();
+            // principal.setVisible(true);
+            // this.dispose(); // Fecha a tela de login
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!");
+        }
+        
+             
+         
+            
+                          
+
+//            if(rs > 0){
+                
+//               JOptionPane.showMessageDialog(null,"Login com sucesso!");
+//                JOptionPane.showMessageDialog(null,rs);
+               
+//                     limpar_campos();
+
+              
+//            }
+             
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 
     /**
@@ -132,15 +198,12 @@ public class Login extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-         Principal principal = new  Principal();
-                principal.setVisible(true);
+        Login();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
-        Login login = new  Login();
-                login.setVisible(false);
+        System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
