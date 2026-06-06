@@ -5,7 +5,8 @@
         <group>
             <file>file:/home/oem/NetBeansProjects/SistemaControleEstoque/src/telas/Clientes.java</file>
             <file>file:/home/oem/NetBeansProjects/SistemaControleEstoque/src/telas/Produtos.java</file>
-            <file>file:/home/oem/NetBeansProjects/SistemaControleEstoque/src/telas/Login.java</file>
+            <file>file:/home/oem/NetBeansProjects/SistemaControleEstoque/src/telas/Fornecedores.java</file>
+            <file>file:/home/oem/NetBeansProjects/SistemaControleEstoque/src/telas/Estoque.java</file>
             <file>file:/home/oem/NetBeansProjects/SistemaControleEstoque/src/telas/Principal.java</file>
         </group>
     </open-files>
