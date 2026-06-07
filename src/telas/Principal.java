@@ -77,6 +77,7 @@ Data.setText(dataFormatada);
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
@@ -198,6 +199,15 @@ Data.setText(dataFormatada);
         jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vendas-40.png"))); // NOI18N
         jMenu4.setText("Vendas");
         jMenu4.setPreferredSize(new java.awt.Dimension(152, 45));
+
+        jMenuItem6.setText("Vendas");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem6);
+
         jMenuBar1.add(jMenu4);
 
         jMenu5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -305,6 +315,13 @@ Data.setText(dataFormatada);
         System.exit(0);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        
+         Vendas vendas = new  Vendas();
+                vendas.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -361,6 +378,7 @@ Data.setText(dataFormatada);
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
