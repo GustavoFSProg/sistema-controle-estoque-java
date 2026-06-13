@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -26,6 +27,11 @@ public class Vendas extends javax.swing.JFrame {
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
+    
+    double preco, subtotal, total;
+    int qtd;
+    
+    DefaultTableModel meus_produtos;
 
 
     /**
@@ -117,6 +123,27 @@ public class Vendas extends javax.swing.JFrame {
 //               AddButton.setEnabled(false);
 
         }
+                  
+                  
+                public void pesquisar_produtos_por_nome(){
+//          String sql = "select  id as Id, name as Nome, email as Email, fone as Telefone, endereco as Endereço  from clientes where  name like ?";
+                    String sql = "select * from tb_produtos where  nome like ?";
+
+          try{
+               pst=conexao.prepareStatement(sql);
+               
+               pst.setString(1, PesquisaProduto.getText() + "%");
+               
+                     rs= pst.executeQuery();
+                     
+                     TabelaProdutos.setModel(DbUtils.resultSetToTableModel(rs));
+          
+              }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+          
+           
+      }
     
     
          
@@ -140,7 +167,7 @@ public class Vendas extends javax.swing.JFrame {
                      
                      
                      
-//                     Tabela.setModel(DbUtils.resultSetToTableModel(rs));
+//                     TabelaProdutos.setModel(DbUtils.resultSetToTableModel(rs));
           
               }catch (Exception e){
             JOptionPane.showMessageDialog(null, e);
@@ -188,6 +215,7 @@ public class Vendas extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         desconto = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         Carrinho = new javax.swing.JTable();
@@ -250,6 +278,15 @@ public class Vendas extends javax.swing.JFrame {
 
         jLabel4.setText("Pesquise um produto aqui");
 
+        PesquisaProduto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                PesquisaProdutoKeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                PesquisaProdutoKeyPressed(evt);
+            }
+        });
+
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/lupa.png"))); // NOI18N
         jButton1.setText("Pesquisar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -271,6 +308,9 @@ public class Vendas extends javax.swing.JFrame {
         TabelaProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 TabelaProdutosMousePressed(evt);
+            }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TabelaProdutosMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(TabelaProdutos);
@@ -334,8 +374,8 @@ public class Vendas extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(PesquisaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(59, 59, 59)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -358,9 +398,16 @@ public class Vendas extends javax.swing.JFrame {
 
         jLabel9.setText("Estoque");
 
+        QTD.setText("1");
+
         jLabel10.setText("QTD");
 
-        SalvarButton.setText("Salvar");
+        SalvarButton.setText("ADD ITEM");
+        SalvarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalvarButtonActionPerformed(evt);
+            }
+        });
 
         jLabel11.setText("Desconto %");
 
@@ -368,6 +415,13 @@ public class Vendas extends javax.swing.JFrame {
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Limpar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -408,10 +462,12 @@ public class Vendas extends javax.swing.JFrame {
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                         .addComponent(SalvarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(163, 163, 163)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -435,13 +491,15 @@ public class Vendas extends javax.swing.JFrame {
                     .addComponent(jLabel10))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(SalvarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
-                            .addComponent(Estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(Estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(SalvarButton, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(89, 89, 89))
         );
 
@@ -597,7 +655,8 @@ public class Vendas extends javax.swing.JFrame {
     private void TabelaProdutosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelaProdutosMousePressed
         // TODO add your handling code here:
         
-        setar_campos();
+//        setar_campos();
+        
     }//GEN-LAST:event_TabelaProdutosMousePressed
 
     private void IdProdutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_IdProdutoKeyPressed
@@ -616,6 +675,74 @@ public class Vendas extends javax.swing.JFrame {
         // TODO add your handling code here:
         pesquisar_produtos_por_id();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        IdProduto.setText("");
+        NomeProduto.setText("");
+        Preco.setText("");
+        Estoque.setText("");
+        QTD.setText("");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void PesquisaProdutoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PesquisaProdutoKeyTyped
+        // TODO add your handling code here:
+//        pesquisar_produtos_por_nome();
+    }//GEN-LAST:event_PesquisaProdutoKeyTyped
+
+    private void PesquisaProdutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PesquisaProdutoKeyPressed
+        // TODO add your handling code here:
+                pesquisar_produtos_por_nome();
+
+    }//GEN-LAST:event_PesquisaProdutoKeyPressed
+
+    private void TabelaProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelaProdutosMouseClicked
+        // TODO add your handling code here:
+                setar_campos();
+                
+                  IdProduto.setEnabled(false);
+        NomeProduto.setEnabled(false);
+        Preco.setEnabled(false);
+        Estoque.setEnabled(false);
+//                IdProduto.setEnabled(false);
+    }//GEN-LAST:event_TabelaProdutosMouseClicked
+
+    private void SalvarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalvarButtonActionPerformed
+        // TODO add your handling code here:
+        
+        if(NomeProduto.getText() != null ){
+            int estoque = Integer.valueOf(Estoque.getText());
+            int quantidade = Integer.valueOf(QTD.getText());
+            
+            preco = Double.valueOf(Preco.getText());
+            int qtd = Integer.valueOf(QTD.getText());
+            subtotal = preco*qtd;
+            
+            total += subtotal;
+            
+            if(estoque >= quantidade){
+                Total.setText(String.valueOf(total));
+                meus_produtos = (DefaultTableModel)Carrinho.getModel();
+                
+                meus_produtos.addRow(new Object[] {
+                  IdProduto.getText(),
+                  NomeProduto.getText(),
+                  QTD.getText(),
+                  Preco.getText(),
+                  subtotal
+                });
+                
+                
+            }else{
+                JOptionPane.showMessageDialog(null, "Quantidade maior que o estoque!!");
+            }
+
+
+        }
+//        else{
+//                JOptionPane.showMessageDialog(null, "Erro no carrinho faltam dados do produto !!");
+//            }
+    }//GEN-LAST:event_SalvarButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -670,6 +797,7 @@ public class Vendas extends javax.swing.JFrame {
     private javax.swing.JTextField Total;
     private javax.swing.JTextField desconto;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
