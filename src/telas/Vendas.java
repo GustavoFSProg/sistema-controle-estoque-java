@@ -505,20 +505,29 @@ public class Vendas extends javax.swing.JFrame {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Carrinho de compras"));
 
+        Carrinho.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
         Carrinho.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "codigo", "produto", "qtd", "preço", "subtotal"
             }
         ));
+        Carrinho.setRowHeight(24);
         jScrollPane2.setViewportView(Carrinho);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Total da Venda"));
 
         jLabel12.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
         jLabel12.setText("Total da Venda");
+
+        Total.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        Total.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TotalActionPerformed(evt);
+            }
+        });
 
         PagamentoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/pay-40.png"))); // NOI18N
         PagamentoButton.setText("PAGAMENTO");
@@ -743,6 +752,10 @@ public class Vendas extends javax.swing.JFrame {
 //                JOptionPane.showMessageDialog(null, "Erro no carrinho faltam dados do produto !!");
 //            }
     }//GEN-LAST:event_SalvarButtonActionPerformed
+
+    private void TotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TotalActionPerformed
 
     /**
      * @param args the command line arguments
