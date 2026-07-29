@@ -807,7 +807,7 @@ public class Vendas extends javax.swing.JFrame {
        
 //       if(Nome.getText() != null && cpf != null){
             
-           telaPag.txtTotal.setText(Total.getText());
+           telaPag.Total.setText(Total.getText());
            telaPag.IdCliente.setText(IdCliente.getText());
            telaPag.DataVenda.setText(Data.getText());
 
