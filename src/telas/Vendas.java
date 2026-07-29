@@ -55,6 +55,56 @@ public class Vendas extends javax.swing.JFrame {
     
 }
     
+    public int RetornaUltimoIdVenda(){
+        
+        try{
+            
+            int UltimoId = 0 ;
+            
+            String sql = "select max(id) id from tb_vendas";
+            
+             pst=conexao.prepareStatement(sql);
+             
+             rs= pst.executeQuery();
+             
+             while(rs.next()){
+                 UltimoId= rs.getInt("id");
+                 
+                  System.out.println(UltimoId);
+                  
+                  ID.setText(String.valueOf(UltimoId));
+             }
+             
+             return UltimoId;
+            
+        }catch(Exception e){
+            throw new  RuntimeException("Erro ao retornar o último ID da venda!"); 
+            
+        }
+    }
+    
+    
+    
+    public void SalvarItemsVenda(){
+        
+        try{
+            
+            
+            String sql = "insert into tb_itemsvendas(venda_id, produto_id, qtd, subtotal)values(?,?,?,?)";
+            
+             pst=conexao.prepareStatement(sql);
+             
+             rs= pst.executeQuery();
+             
+             
+             JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Deu ERRO!"); 
+            
+        
+    }
+}
          
                 public void pesquisar_produtos(){
 //          String sql = "select  id as Id, name as Nome, email as Email, fone as Telefone, endereco as Endereço  from clientes where  name like ?";
@@ -238,6 +288,8 @@ public class Vendas extends javax.swing.JFrame {
         Total = new javax.swing.JTextField();
         PagamentoButton = new javax.swing.JButton();
         CancelarButton = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        ID = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Ponto de Vendas");
@@ -566,6 +618,15 @@ public class Vendas extends javax.swing.JFrame {
         CancelarButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/cancelar-30.png"))); // NOI18N
         CancelarButton.setText("Cancelar Venda");
 
+        jButton4.setText("Último Id Venda");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        ID.setText("jLabel15");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -578,11 +639,16 @@ public class Vendas extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(Total, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(PagamentoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(PagamentoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(71, 71, 71)
-                        .addComponent(CancelarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(CancelarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(87, 87, 87))))
         );
         jPanel5Layout.setVerticalGroup(
@@ -596,7 +662,15 @@ public class Vendas extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PagamentoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(CancelarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(ID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 12, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -824,6 +898,11 @@ public class Vendas extends javax.swing.JFrame {
         
     }//GEN-LAST:event_PagamentoButtonActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        RetornaUltimoIdVenda();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -865,6 +944,7 @@ public class Vendas extends javax.swing.JFrame {
     private javax.swing.JTable Carrinho;
     private javax.swing.JTextField Data;
     private javax.swing.JTextField Estoque;
+    private javax.swing.JLabel ID;
     private javax.swing.JTextField IdCliente;
     private javax.swing.JTextField IdProduto;
     private javax.swing.JTextField Nome;
@@ -880,6 +960,7 @@ public class Vendas extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
